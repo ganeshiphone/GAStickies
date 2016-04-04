@@ -15,6 +15,12 @@
 		1F3729951CB3078300DF5FAC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F3729931CB3078300DF5FAC /* LaunchScreen.storyboard */; };
 		1F3729A01CB3078300DF5FAC /* StickiesAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F37299F1CB3078300DF5FAC /* StickiesAppTests.swift */; };
 		1F3729AB1CB3078300DF5FAC /* StickiesAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3729AA1CB3078300DF5FAC /* StickiesAppUITests.swift */; };
+		1F3729B91CB309A100DF5FAC /* StickieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3729B81CB309A100DF5FAC /* StickieView.swift */; };
+		1F3729BA1CB309A100DF5FAC /* StickieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3729B81CB309A100DF5FAC /* StickieView.swift */; };
+		1F3729BB1CB309A100DF5FAC /* StickieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3729B81CB309A100DF5FAC /* StickieView.swift */; };
+		1F3729BD1CB309FE00DF5FAC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3729BC1CB309FE00DF5FAC /* Constants.swift */; };
+		1F3729BE1CB309FE00DF5FAC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3729BC1CB309FE00DF5FAC /* Constants.swift */; };
+		1F3729BF1CB309FE00DF5FAC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3729BC1CB309FE00DF5FAC /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +55,8 @@
 		1F3729A61CB3078300DF5FAC /* StickiesAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StickiesAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F3729AA1CB3078300DF5FAC /* StickiesAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickiesAppUITests.swift; sourceTree = "<group>"; };
 		1F3729AC1CB3078300DF5FAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1F3729B81CB309A100DF5FAC /* StickieView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickieView.swift; sourceTree = "<group>"; };
+		1F3729BC1CB309FE00DF5FAC /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +109,8 @@
 			children = (
 				1F3729871CB3078300DF5FAC /* AppDelegate.swift */,
 				1F3729891CB3078300DF5FAC /* ViewController.swift */,
+				1F3729BC1CB309FE00DF5FAC /* Constants.swift */,
+				1F3729B81CB309A100DF5FAC /* StickieView.swift */,
 				1F37298B1CB3078300DF5FAC /* Main.storyboard */,
 				1F3729911CB3078300DF5FAC /* Assets.xcassets */,
 				1F3729931CB3078300DF5FAC /* LaunchScreen.storyboard */,
@@ -259,9 +269,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F3729BD1CB309FE00DF5FAC /* Constants.swift in Sources */,
 				1F37298A1CB3078300DF5FAC /* ViewController.swift in Sources */,
 				1F3729881CB3078300DF5FAC /* AppDelegate.swift in Sources */,
 				1F3729901CB3078300DF5FAC /* StickiesApp.xcdatamodeld in Sources */,
+				1F3729B91CB309A100DF5FAC /* StickieView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,6 +282,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F3729A01CB3078300DF5FAC /* StickiesAppTests.swift in Sources */,
+				1F3729BA1CB309A100DF5FAC /* StickieView.swift in Sources */,
+				1F3729BE1CB309FE00DF5FAC /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,6 +292,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F3729AB1CB3078300DF5FAC /* StickiesAppUITests.swift in Sources */,
+				1F3729BB1CB309A100DF5FAC /* StickieView.swift in Sources */,
+				1F3729BF1CB309FE00DF5FAC /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

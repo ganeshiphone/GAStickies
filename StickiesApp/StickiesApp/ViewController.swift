@@ -22,7 +22,6 @@ class StickieStack
             items.removeFirst()
         }
     }
-    
     func currentStickie() -> StickieView?
     {
         if items.count > 0
@@ -67,6 +66,17 @@ class ViewController: UIViewController {
         }
         
         stickieStack.push(stickieView)
+    }
+    
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        print("touchesBegan")
+    }
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        print("touchesMoved")
+    }
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        print("touchesEnded")
     }
 
 }

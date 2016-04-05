@@ -11,11 +11,9 @@ import UIKit
 
 class StickieView: UIView {
    
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
     init()
     {
@@ -25,5 +23,21 @@ class StickieView: UIView {
         self.layer.borderColor = STICKIE_BORDER_COLOR.CGColor
         self.backgroundColor = STICKIE_BACKGROUND_COLOR
     }
-
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        print("touchesBegan")
+        self.superview?.bringSubviewToFront(self)
+    }
+    
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        print("touchesMoved")
+        let touch = touches.first
+        let location = touch!.locationInView(self.superview)
+        let oldLocation = touch!.previousLocationInView(self.superview)
+        self.frame = CGRectOffset(self.frame, location.x-oldLocation.x, location.y-oldLocation.y)
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        print("touchesEnded")
+    }
 }

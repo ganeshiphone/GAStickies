@@ -8,14 +8,14 @@
 
 import UIKit
 
-class StickieStack
+struct StickieStack
 {
     var items:[StickieView] = []
-    func push(item: StickieView)
+    mutating func push(item: StickieView)
     {
         items.insert(item, atIndex: 0)
     }
-    func pop()
+    mutating func pop()
     {
         if items.count > 0
         {
@@ -30,6 +30,23 @@ class StickieStack
         }
         return nil
     }
+    func copiedStickies() -> [StickieView]?
+    {
+        var bunchOFStickies: [StickieView]? = []
+        for cpView in self.items
+        {
+            if cpView.isSelected == true
+            {
+                bunchOFStickies?.append(cpView)
+            }
+        }
+        return bunchOFStickies
+    }
+    
+    mutating func removeStickies(stickies: [StickieView])
+    {
+        items = Array(Set(items).subtract(stickies))
+    }
 }
 
 class ViewController: UIViewController {
@@ -37,9 +54,18 @@ class ViewController: UIViewController {
     var stickieStack = StickieStack()
     var selectionView : SelectionView?
     
+    var copiedStickies: [StickieView]? = []
+    
+    @IBOutlet weak var copyButton: UIBarButtonItem!
+    @IBOutlet weak var cutButton: UIBarButtonItem!
+    @IBOutlet weak var pasteButton: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        self.cutButton.enabled = false
+        self.copyButton.enabled = false
+        self.pasteButton.enabled = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -49,29 +75,67 @@ class ViewController: UIViewController {
 
     @IBAction func newButtonTapped(sender: UIBarButtonItem)
     {
-        addNewStickieView()
+        addStickieView(StickieView())
     }
     
     
-    func addNewStickieView()
+    @IBAction func copyButtonTapped(sender: UIBarButtonItem)
     {
-        let stickieView = StickieView()
-        self.view.addSubview(stickieView)
+        selectionView?.removeFromSuperview()
+        guard let stickies = stickieStack.copiedStickies() else { return }
+        copiedStickies = stickies
+        
+        self.pasteButton.enabled = copiedStickies?.count > 0
+    }
+    
+    @IBAction func cutButtonTapped(sender: UIBarButtonItem)
+    {
+        selectionView?.removeFromSuperview()
+        guard let stickies = stickieStack.copiedStickies() else { return }
+        copiedStickies = stickies
+        
+        self.pasteButton.enabled = copiedStickies?.count > 0
+        
+        for ctView in copiedStickies!
+        {
+            ctView.removeFromSuperview()
+        }
+
+        stickieStack.removeStickies(copiedStickies!)
+    }
+    
+    
+    @IBAction func pasteButtonTapped(sender: UIBarButtonItem)
+    {
+        selectionView?.removeFromSuperview()
+        if let copiedStickies = copiedStickies
+        {
+            for cpView in copiedStickies
+            {
+                addStickieView(cpView.copyView())
+            }
+        }
+        
+    }
+    
+    func addStickieView(stickie: StickieView)
+    {
+        self.view.addSubview(stickie)
         if let previousView = stickieStack.currentStickie()
         {
-            stickieView.center = CGPointMake(previousView.center.x+5.0, previousView.center.y+5.0)
+            stickie.center = CGPointMake(previousView.center.x+5.0, previousView.center.y+5.0)
         }
         else
         {
-            stickieView.center = self.view.center
+            stickie.center = self.view.center
         }
-        
-        stickieStack.push(stickieView)
+        stickieStack.push(stickie)
     }
     
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         print("touchesBegan")
+        self.view.endEditing(true)
         selectionView?.removeFromSuperview()
         selectionView = SelectionView()
          self.view.addSubview(selectionView!)
@@ -107,15 +171,24 @@ class ViewController: UIViewController {
             if selectionView!.frame.intersects(sView.frame) == true
             {
                 sView.layer.borderColor = STICKIE_BORDER_COLOR_SELECTED.CGColor
+                sView.isSelected = true
+            }
+            else
+            {
+                sView.layer.borderColor = STICKIE_BORDER_COLOR.CGColor
+                sView.isSelected = false
             }
         }
+        
         
         
         
     }
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         //print("touchesEnded")
-     
+        
+        self.cutButton.enabled = stickieStack.copiedStickies()?.count > 0
+        self.copyButton.enabled = self.cutButton.enabled
 
     }
 

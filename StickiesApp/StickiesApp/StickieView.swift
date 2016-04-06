@@ -9,10 +9,25 @@
 import Foundation
 import UIKit
 
-class StickieView: UIView {
+
+extension StickieView
+{
+    func copyView() -> StickieView
+    {
+        return NSKeyedUnarchiver.unarchiveObjectWithData(NSKeyedArchiver.archivedDataWithRootObject(self)) as! StickieView
+    }
+}
+
+class StickieView: UIView, UITextViewDelegate {
    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    var isSelected = false
+    var aTextView: UITextView = UITextView()
+    var isEditing = false
+    required convenience init?(coder aDecoder: NSCoder) {
+        self.init()
+        self.isSelected = false
+        let text = aDecoder.decodeObjectForKey("viewText") as? String
+        aTextView.text = text
     }
     
     init()
@@ -22,15 +37,26 @@ class StickieView: UIView {
         self.layer.borderWidth = CGFloat(STICKIE_BORDER_WIDTH)
         self.layer.borderColor = STICKIE_BORDER_COLOR.CGColor
         self.backgroundColor = STICKIE_BACKGROUND_COLOR
+        aTextView.frame = self.bounds
+        aTextView.delegate = self
+        aTextView.backgroundColor = UIColor.clearColor()
+        aTextView.userInteractionEnabled = isEditing
+        self.addSubview(aTextView)
+    }
+    
+    override func encodeWithCoder(coder: NSCoder) {
+        coder.encodeObject(aTextView.text, forKey: "viewText")
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         print("touchesBegan")
+        isEditing = true
         self.superview?.bringSubviewToFront(self)
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         print("touchesMoved")
+        isEditing = false
         let touch = touches.first
         let location = touch!.locationInView(self.superview)
         let oldLocation = touch!.previousLocationInView(self.superview)
@@ -39,5 +65,24 @@ class StickieView: UIView {
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         print("touchesEnded")
+        aTextView.userInteractionEnabled = isEditing
+        if isEditing == true
+        {
+            aTextView.becomeFirstResponder()
+        }
+        else
+        {
+            aTextView.resignFirstResponder()
+        }
     }
+    
+    func textViewDidBeginEditing(textView: UITextView) {
+        
+    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
+        textView.resignFirstResponder()
+        textView.userInteractionEnabled = false
+    }
+
 }

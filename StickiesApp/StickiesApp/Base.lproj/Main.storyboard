@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="eRX-vS-aEl">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="eRX-vS-aEl">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
@@ -23,12 +23,21 @@
                         <rightBarButtonItems>
                             <barButtonItem title="Paste" id="br8-kz-jeH">
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="pasteButtonTapped:" destination="BYZ-38-t0r" id="tpe-6d-bDJ"/>
+                                </connections>
                             </barButtonItem>
                             <barButtonItem title="Cut" id="uNB-ED-qUW">
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="cutButtonTapped:" destination="BYZ-38-t0r" id="xsm-UP-hgL"/>
+                                </connections>
                             </barButtonItem>
                             <barButtonItem title="Copy" id="KPu-qI-BhS">
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="copyButtonTapped:" destination="BYZ-38-t0r" id="UOx-c4-0s6"/>
+                                </connections>
                             </barButtonItem>
                             <barButtonItem title="Create New" id="ifY-dE-nkK">
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -38,6 +47,11 @@
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
+                    <connections>
+                        <outlet property="copyButton" destination="KPu-qI-BhS" id="lxI-ml-vVi"/>
+                        <outlet property="cutButton" destination="uNB-ED-qUW" id="i53-LF-634"/>
+                        <outlet property="pasteButton" destination="br8-kz-jeH" id="fli-hS-dq6"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

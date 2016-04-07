@@ -51,6 +51,8 @@ struct StickieStack
 
 class ViewController: UIViewController {
 
+    
+    let pasteBoard:UIPasteboard = UIPasteboard.generalPasteboard()
     var stickieStack = StickieStack()
     var selectionView : SelectionView?
     
@@ -65,7 +67,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         self.cutButton.enabled = false
         self.copyButton.enabled = false
-        self.pasteButton.enabled = false
+    
     }
 
     override func didReceiveMemoryWarning() {
@@ -84,6 +86,12 @@ class ViewController: UIViewController {
         selectionView?.removeFromSuperview()
         guard let stickies = stickieStack.copiedStickies() else { return }
         copiedStickies = stickies
+        let copyData: NSData? = NSKeyedArchiver.archivedDataWithRootObject(copiedStickies!)
+        if let data = copyData
+        {
+            pasteBoard.setData(data, forPasteboardType:"public.data")
+        }
+        
         
         self.pasteButton.enabled = copiedStickies?.count > 0
     }
@@ -102,20 +110,46 @@ class ViewController: UIViewController {
         }
 
         stickieStack.removeStickies(copiedStickies!)
+        
+        let copyData: NSData? = NSKeyedArchiver.archivedDataWithRootObject(copiedStickies!)
+        if let data = copyData
+        {
+            pasteBoard.setData(data, forPasteboardType:"public.data")
+        }
+        
+        
+      
     }
     
     
     @IBAction func pasteButtonTapped(sender: UIBarButtonItem)
     {
         selectionView?.removeFromSuperview()
-        if let copiedStickies = copiedStickies
+        
+        let copyData: NSData? = pasteBoard.dataForPasteboardType("public.data")
+        if let data = copyData
         {
-            for cpView in copiedStickies
+            guard let stickies = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [StickieView]? else {return}
+            copiedStickies = stickies
+            for cpView in copiedStickies!
             {
                 cpView.isSelected = false
-                addStickieView(cpView.copyView())
+                addStickieView(cpView)
             }
+            
         }
+        
+      
+        
+        
+//        if let copiedStickies = copiedStickies
+//        {
+//            for cpView in copiedStickies
+//            {
+//                cpView.isSelected = false
+//                addStickieView(cpView.copyView())
+//            }
+//        }
         
         self.cutButton.enabled = false
         self.copyButton.enabled = false

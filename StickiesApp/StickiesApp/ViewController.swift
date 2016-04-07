@@ -36,12 +36,14 @@ class ViewController: UIViewController {
 
     @IBAction func newButtonTapped(sender: UIBarButtonItem)
     {
+        self.view.endEditing(true)
         addStickieView(StickieView())
     }
     
     
     @IBAction func copyButtonTapped(sender: UIBarButtonItem)
     {
+        self.view.endEditing(true)
         selectionView?.removeFromSuperview()
         guard let stickies = stickieStack.copiedStickies() else { return }
         copiedStickies = stickies
@@ -57,6 +59,7 @@ class ViewController: UIViewController {
     
     @IBAction func cutButtonTapped(sender: UIBarButtonItem)
     {
+        self.view.endEditing(true)
         selectionView?.removeFromSuperview()
         guard let stickies = stickieStack.copiedStickies() else { return }
         copiedStickies = stickies
@@ -84,7 +87,7 @@ class ViewController: UIViewController {
     @IBAction func pasteButtonTapped(sender: UIBarButtonItem)
     {
         selectionView?.removeFromSuperview()
-        
+        self.view.endEditing(true)
         let copyData: NSData? = pasteBoard.dataForPasteboardType("public.data")
         if let data = copyData
         {

@@ -87,6 +87,7 @@ class StickieView: UIView, UITextViewDelegate {
         isEditing = true
         self.superview?.bringSubviewToFront(self)
         self.layer.borderColor = STICKIE_BORDER_COLOR_EDITING.CGColor
+        self.center = CGPointMake(self.center.x, ((self.superview?.center.y)! + (self.frame.size.width/2)) )
     }
     
     func textViewDidEndEditing(textView: UITextView) {

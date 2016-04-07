@@ -21,6 +21,19 @@ extension StickieView
 class StickieView: UIView, UITextViewDelegate {
    
     var isSelected = false
+        {
+            willSet(newValue)
+            {
+                if newValue == true
+                {
+                    self.layer.borderColor = STICKIE_BORDER_COLOR_SELECTED.CGColor
+                }
+                else
+                {
+                    self.layer.borderColor = STICKIE_BORDER_COLOR.CGColor
+                }
+        }
+    }
     var aTextView: UITextView = UITextView()
     var isEditing = false
     required convenience init?(coder aDecoder: NSCoder) {
@@ -69,6 +82,9 @@ class StickieView: UIView, UITextViewDelegate {
         if isEditing == true
         {
             aTextView.becomeFirstResponder()
+            isEditing = true
+            self.superview?.bringSubviewToFront(self)
+            self.layer.borderColor = STICKIE_BORDER_COLOR_EDITING.CGColor
         }
         else
         {
@@ -77,12 +93,16 @@ class StickieView: UIView, UITextViewDelegate {
     }
     
     func textViewDidBeginEditing(textView: UITextView) {
-        
+        isEditing = true
+        self.superview?.bringSubviewToFront(self)
+        self.layer.borderColor = STICKIE_BORDER_COLOR_EDITING.CGColor
     }
     
     func textViewDidEndEditing(textView: UITextView) {
         textView.resignFirstResponder()
         textView.userInteractionEnabled = false
+        isEditing = false
+        self.layer.borderColor = STICKIE_BORDER_COLOR.CGColor
     }
 
 }

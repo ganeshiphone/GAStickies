@@ -112,9 +112,13 @@ class ViewController: UIViewController {
         {
             for cpView in copiedStickies
             {
+                cpView.isSelected = false
                 addStickieView(cpView.copyView())
             }
         }
+        
+        self.cutButton.enabled = false
+        self.copyButton.enabled = false
         
     }
     
@@ -170,12 +174,10 @@ class ViewController: UIViewController {
         {
             if selectionView!.frame.intersects(sView.frame) == true
             {
-                sView.layer.borderColor = STICKIE_BORDER_COLOR_SELECTED.CGColor
                 sView.isSelected = true
             }
             else
             {
-                sView.layer.borderColor = STICKIE_BORDER_COLOR.CGColor
                 sView.isSelected = false
             }
         }

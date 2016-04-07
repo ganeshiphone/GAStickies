@@ -9,29 +9,20 @@
 import Foundation
 import UIKit
 
-
-extension StickieView
-{
-    func copyView() -> StickieView
-    {
-        return NSKeyedUnarchiver.unarchiveObjectWithData(NSKeyedArchiver.archivedDataWithRootObject(self)) as! StickieView
-    }
-}
-
 class StickieView: UIView, UITextViewDelegate {
-   
+    
     var isSelected = false
         {
-            willSet(newValue)
+        willSet(newValue)
+        {
+            if newValue == true
             {
-                if newValue == true
-                {
-                    self.layer.borderColor = STICKIE_BORDER_COLOR_SELECTED.CGColor
-                }
-                else
-                {
-                    self.layer.borderColor = STICKIE_BORDER_COLOR.CGColor
-                }
+                self.layer.borderColor = STICKIE_BORDER_COLOR_SELECTED.CGColor
+            }
+            else
+            {
+                self.layer.borderColor = STICKIE_BORDER_COLOR.CGColor
+            }
         }
     }
     var aTextView: UITextView = UITextView()
@@ -104,5 +95,17 @@ class StickieView: UIView, UITextViewDelegate {
         isEditing = false
         self.layer.borderColor = STICKIE_BORDER_COLOR.CGColor
     }
-
+    
 }
+
+/*
+ //Dead code : Just for checking
+ extension StickieView
+ {
+ func copyView() -> StickieView
+ {
+ return NSKeyedUnarchiver.unarchiveObjectWithData(NSKeyedArchiver.archivedDataWithRootObject(self)) as! StickieView
+ }
+ }
+ 
+ */

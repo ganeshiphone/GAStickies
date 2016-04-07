@@ -8,47 +8,6 @@
 
 import UIKit
 
-struct StickieStack
-{
-    var items:[StickieView] = []
-    mutating func push(item: StickieView)
-    {
-        items.insert(item, atIndex: 0)
-    }
-    mutating func pop()
-    {
-        if items.count > 0
-        {
-            items.removeFirst()
-        }
-    }
-    func currentStickie() -> StickieView?
-    {
-        if items.count > 0
-        {
-            return items[0]
-        }
-        return nil
-    }
-    func copiedStickies() -> [StickieView]?
-    {
-        var bunchOFStickies: [StickieView]? = []
-        for cpView in self.items
-        {
-            if cpView.isSelected == true
-            {
-                bunchOFStickies?.append(cpView)
-            }
-        }
-        return bunchOFStickies
-    }
-    
-    mutating func removeStickies(stickies: [StickieView])
-    {
-        items = Array(Set(items).subtract(stickies))
-    }
-}
-
 class ViewController: UIViewController {
 
     
@@ -139,18 +98,6 @@ class ViewController: UIViewController {
             
         }
         
-      
-        
-        
-//        if let copiedStickies = copiedStickies
-//        {
-//            for cpView in copiedStickies
-//            {
-//                cpView.isSelected = false
-//                addStickieView(cpView.copyView())
-//            }
-//        }
-        
         self.cutButton.enabled = false
         self.copyButton.enabled = false
         
@@ -182,6 +129,12 @@ class ViewController: UIViewController {
         let location = touch!.locationInView(self.view)
         selectionView!.frame = CGRect(origin: location, size: selectionView!.frame.size)
         
+        copiedStickies = []
+        
+        self.cutButton.enabled = false
+        self.copyButton.enabled = false
+        
+        stickieStack.unSelectAllStickies()
         
     }
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {

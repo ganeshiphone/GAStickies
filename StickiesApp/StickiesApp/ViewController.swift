@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController {
 
     
-    let pasteBoard:UIPasteboard = UIPasteboard.generalPasteboard()
+    let pasteBoard:UIPasteboard = UIPasteboard.pasteboardWithUniqueName()
     var stickieStack = StickieStack()
     var selectionView : SelectionView?
     
@@ -53,6 +53,17 @@ class ViewController: UIViewController {
             pasteBoard.setData(data, forPasteboardType:"public.data")
         }
         
+        var copiedImages: [UIImage]? = []
+        for aView in copiedStickies!
+        {
+            let image = UIImage(view: aView)
+            copiedImages?.append(image)
+        }
+        
+        UIPasteboard.generalPasteboard().images = copiedImages
+        
+        
+        
         
         self.pasteButton.enabled = copiedStickies?.count > 0
     }
@@ -79,6 +90,15 @@ class ViewController: UIViewController {
             pasteBoard.setData(data, forPasteboardType:"public.data")
         }
         
+        
+        var copiedImages: [UIImage]? = []
+        for aView in copiedStickies!
+        {
+            let image = UIImage(view: aView)
+            copiedImages?.append(image)
+        }
+        
+        UIPasteboard.generalPasteboard().images = copiedImages
         
       
     }
@@ -122,7 +142,7 @@ class ViewController: UIViewController {
     
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        print("touchesBegan")
+        
         self.view.endEditing(true)
         selectionView?.removeFromSuperview()
         selectionView = SelectionView()
@@ -141,7 +161,7 @@ class ViewController: UIViewController {
         
     }
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        print("touchesMoved")
+      
         
         let touch = touches.first
         let location = touch!.locationInView(self.view)
@@ -177,7 +197,6 @@ class ViewController: UIViewController {
         
     }
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        //print("touchesEnded")
         
         self.cutButton.enabled = stickieStack.copiedStickies()?.count > 0
         self.copyButton.enabled = self.cutButton.enabled

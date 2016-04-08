@@ -87,7 +87,18 @@ class StickieView: UIView, UITextViewDelegate {
         isEditing = true
         self.superview?.bringSubviewToFront(self)
         self.layer.borderColor = STICKIE_BORDER_COLOR_EDITING.CGColor
-        self.center = CGPointMake(self.center.x, ((self.superview?.center.y)! + (self.frame.size.width/2)) )
+        let shouldY = CGFloat(GENERAL_KEYBOARD_HEIGHT) + (self.frame.size.width/2)
+        let centerY = self.center.y
+        if shouldY < centerY
+        {
+            
+            UIView.animateWithDuration(Double(0.5), animations: {
+                self.center = CGPointMake(self.center.x,  shouldY)
+                self.layoutIfNeeded()
+            })
+            
+        }
+        
     }
     
     func textViewDidEndEditing(textView: UITextView) {
@@ -97,6 +108,16 @@ class StickieView: UIView, UITextViewDelegate {
         self.layer.borderColor = STICKIE_BORDER_COLOR.CGColor
     }
     
+}
+
+extension UIImage {
+    convenience init(view: UIView) {
+        UIGraphicsBeginImageContext(view.frame.size)
+        view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        self.init(CGImage: image.CGImage!)
+    }
 }
 
 /*

@@ -2,12 +2,17 @@
 //  StickieView.swift
 //  StickiesApp
 //
-//  Created by Ganesh on 05/04/16.
+//  Created by Ganesh on 06/04/16.
 //  Copyright © 2016 Ganesh. All rights reserved.
 //
 
 import Foundation
 import UIKit
+
+protocol StickieViewDelegate
+{
+    func didComeFront(view: StickieView)
+}
 
 class StickieView: UIView, UITextViewDelegate {
     
@@ -18,15 +23,34 @@ class StickieView: UIView, UITextViewDelegate {
             if newValue == true
             {
                 self.layer.borderColor = STICKIE_BORDER_COLOR_SELECTED.CGColor
+                aTextView.textColor = UIColor.grayColor()
             }
             else
             {
                 self.layer.borderColor = STICKIE_BORDER_COLOR.CGColor
+                aTextView.textColor = UIColor.grayColor()
             }
         }
     }
     var aTextView: UITextView = UITextView()
     var isEditing = false
+        {
+        
+        willSet(newValue)
+        {
+            if newValue == true
+            {
+                self.layer.borderColor = STICKIE_BORDER_COLOR_SELECTED.CGColor
+                aTextView.textColor = UIColor.darkGrayColor()
+            }
+            else
+            {
+                self.layer.borderColor = STICKIE_BORDER_COLOR.CGColor
+                aTextView.textColor = UIColor.grayColor()
+            }
+        }
+    }
+    var delegate: StickieViewDelegate?
     required convenience init?(coder aDecoder: NSCoder) {
         self.init()
         self.isSelected = false
@@ -45,6 +69,9 @@ class StickieView: UIView, UITextViewDelegate {
         aTextView.delegate = self
         aTextView.backgroundColor = UIColor.clearColor()
         aTextView.userInteractionEnabled = isEditing
+        aTextView.font = UIFont(name: "ChalkboardSE-Regular", size: 12)
+        aTextView.textColor = UIColor.darkGrayColor()
+        aTextView.spellCheckingType = .No
         self.addSubview(aTextView)
     }
     
@@ -53,13 +80,14 @@ class StickieView: UIView, UITextViewDelegate {
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        print("touchesBegan")
+
         isEditing = true
         self.superview?.bringSubviewToFront(self)
+        delegate?.didComeFront(self)
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        print("touchesMoved")
+
         isEditing = false
         let touch = touches.first
         let location = touch!.locationInView(self.superview)
@@ -68,13 +96,14 @@ class StickieView: UIView, UITextViewDelegate {
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        print("touchesEnded")
+
         aTextView.userInteractionEnabled = isEditing
         if isEditing == true
         {
             aTextView.becomeFirstResponder()
             isEditing = true
             self.superview?.bringSubviewToFront(self)
+            delegate?.didComeFront(self)
             self.layer.borderColor = STICKIE_BORDER_COLOR_EDITING.CGColor
         }
         else
@@ -86,6 +115,7 @@ class StickieView: UIView, UITextViewDelegate {
     func textViewDidBeginEditing(textView: UITextView) {
         isEditing = true
         self.superview?.bringSubviewToFront(self)
+        delegate?.didComeFront(self)
         self.layer.borderColor = STICKIE_BORDER_COLOR_EDITING.CGColor
         let shouldY = CGFloat(GENERAL_KEYBOARD_HEIGHT) + (self.frame.size.width/2)
         let centerY = self.center.y

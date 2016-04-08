@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  StickiesApp
 //
-//  Created by Ganesh on 05/04/16.
+//  Created by Ganesh on 06/04/16.
 //  Copyright © 2016 Ganesh. All rights reserved.
 //
 
@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
         return true
     }
 

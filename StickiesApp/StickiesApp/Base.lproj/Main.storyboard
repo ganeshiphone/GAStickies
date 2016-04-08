@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="eRX-vS-aEl">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="eRX-vS-aEl">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
@@ -17,29 +17,29 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="GyF-W3-XCv">
                         <rightBarButtonItems>
-                            <barButtonItem title="Paste" id="br8-kz-jeH">
+                            <barButtonItem image="paste" style="done" id="br8-kz-jeH">
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <action selector="pasteButtonTapped:" destination="BYZ-38-t0r" id="tpe-6d-bDJ"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Cut" id="uNB-ED-qUW">
+                            <barButtonItem image="cut" id="uNB-ED-qUW">
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <action selector="cutButtonTapped:" destination="BYZ-38-t0r" id="xsm-UP-hgL"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Copy" id="KPu-qI-BhS">
+                            <barButtonItem image="copy" id="KPu-qI-BhS">
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <action selector="copyButtonTapped:" destination="BYZ-38-t0r" id="UOx-c4-0s6"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Create New" id="ifY-dE-nkK">
+                            <barButtonItem image="new" id="ifY-dE-nkK">
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <action selector="newButtonTapped:" destination="BYZ-38-t0r" id="v0b-GO-Z59"/>
@@ -75,4 +75,10 @@
             <point key="canvasLocation" x="-235" y="670"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="copy" width="20" height="20"/>
+        <image name="cut" width="20" height="20"/>
+        <image name="new" width="20" height="20"/>
+        <image name="paste" width="20" height="20"/>
+    </resources>
 </document>

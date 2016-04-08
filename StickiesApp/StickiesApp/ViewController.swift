@@ -2,13 +2,13 @@
 //  ViewController.swift
 //  StickiesApp
 //
-//  Created by Ganesh on 05/04/16.
+//  Created by Ganesh on 06/04/16.
 //  Copyright © 2016 Ganesh. All rights reserved.
 //
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, StickieViewDelegate {
 
     
     let pasteBoard:UIPasteboard = UIPasteboard.pasteboardWithUniqueName()
@@ -17,6 +17,10 @@ class ViewController: UIViewController {
     
     var copiedStickies: [StickieView]? = []
     
+    var oldLocation: CGPoint = CGPointZero
+    
+    var toolBar = UIToolbar()
+    
     @IBOutlet weak var copyButton: UIBarButtonItem!
     @IBOutlet weak var cutButton: UIBarButtonItem!
     @IBOutlet weak var pasteButton: UIBarButtonItem!
@@ -24,9 +28,26 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        self.toolBar.barStyle = UIBarStyle.Black
+        self.toolBar.tintColor = STICKIE_BACKGROUND_COLOR
+        let doneButton = UIBarButtonItem(title: "Dismiss", style: UIBarButtonItemStyle.Done, target: self, action: "donePressed")
+        let cancelButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: "cancelPressed")
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        self.toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        self.toolBar.userInteractionEnabled = true
+        self.toolBar.sizeToFit()
+        
         self.cutButton.enabled = false
         self.copyButton.enabled = false
     
+    }
+    
+    func donePressed(){
+        view.endEditing(true)
+    }
+    func cancelPressed(){
+        view.endEditing(true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -128,6 +149,7 @@ class ViewController: UIViewController {
     
     func addStickieView(stickie: StickieView)
     {
+        stickie.delegate = self
         self.view.addSubview(stickie)
         if let previousView = stickieStack.currentStickie()
         {
@@ -138,6 +160,12 @@ class ViewController: UIViewController {
             stickie.center = self.view.center
         }
         stickieStack.push(stickie)
+    }
+    
+    func didComeFront(view: StickieView)
+    {
+        stickieStack.moveStickieToFront(view)
+        view.aTextView.inputAccessoryView = self.toolBar
     }
     
     
@@ -159,18 +187,26 @@ class ViewController: UIViewController {
         
         stickieStack.unSelectAllStickies()
         
+        oldLocation = selectionView!.frame.origin
+        
     }
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
       
         
         let touch = touches.first
         let location = touch!.locationInView(self.view)
-        let oldLocation = selectionView!.frame.origin
+        
         let thisSize: CGSize?
         if (location.x - oldLocation.x) > 0 && (location.y - oldLocation.y) > 0
         {
             thisSize = CGSizeMake(location.x - oldLocation.x, location.y - oldLocation.y)
             selectionView!.frame = CGRect(origin: oldLocation, size: thisSize!)
+        }
+        else if (location.x - oldLocation.x) < 0 && (location.y - oldLocation.y) < 0
+        {
+            thisSize = CGSizeMake(oldLocation.x - location.x, oldLocation.y - location.y)
+            selectionView!.frame = CGRect(origin: location, size: thisSize!)
+            
         }
         else if (location.x - oldLocation.x) > 0 && (location.y - oldLocation.y) < 0
         {
@@ -178,6 +214,15 @@ class ViewController: UIViewController {
             let origin = CGPointMake(oldLocation.x, location.y)
             selectionView!.frame = CGRect(origin: origin, size: thisSize!)
         }
+        else if (location.x - oldLocation.x) < 0 && (location.y - oldLocation.y) > 0
+        {
+            thisSize = CGSizeMake(location.x - oldLocation.x, oldLocation.y - location.y)
+            let origin = CGPointMake(location.x - thisSize!.width, location.y)
+            
+            print(origin)
+            selectionView!.frame = CGRect(origin: origin, size: thisSize!)
+        }
+        
         
         
         for sView in stickieStack.items
@@ -196,6 +241,7 @@ class ViewController: UIViewController {
         
         
     }
+    
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         
         self.cutButton.enabled = stickieStack.copiedStickies()?.count > 0

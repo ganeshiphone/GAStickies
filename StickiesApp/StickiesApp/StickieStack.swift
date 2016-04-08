@@ -56,4 +56,16 @@ struct StickieStack
             sView.isSelected = false
         }
     }
+    
+    mutating func moveStickieToFront(stickie: StickieView)
+    {
+       let index = items.indexOf(stickie)
+        if let anIndex = index
+        {
+            if anIndex > 0
+            {
+                swap(&items[anIndex], &items[0])
+            }
+        }
+    }
 }

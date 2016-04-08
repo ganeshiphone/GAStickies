@@ -51,10 +51,19 @@ class StickieView: UIView, UITextViewDelegate {
         }
     }
     var delegate: StickieViewDelegate?
+    var thisPosition: CGPoint = CGPointZero
     required convenience init?(coder aDecoder: NSCoder) {
         self.init()
         self.isSelected = false
         let text = aDecoder.decodeObjectForKey("viewText") as? String
+        let xPos = aDecoder.decodeObjectForKey("centerX") as? CGFloat
+        let yPos = aDecoder.decodeObjectForKey("centerY") as? CGFloat
+        
+        if let _ = xPos, let _ = yPos
+        {
+            self.center = CGPointMake(xPos!+10.0, yPos!+10.0)
+            thisPosition = self.center
+        }
         aTextView.text = text
     }
     
@@ -77,6 +86,8 @@ class StickieView: UIView, UITextViewDelegate {
     
     override func encodeWithCoder(coder: NSCoder) {
         coder.encodeObject(aTextView.text, forKey: "viewText")
+        coder.encodeObject(thisPosition.x, forKey: "centerX")
+        coder.encodeObject(thisPosition.y, forKey: "centerY")
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -97,6 +108,7 @@ class StickieView: UIView, UITextViewDelegate {
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
 
+        thisPosition = self.center
         aTextView.userInteractionEnabled = isEditing
         if isEditing == true
         {
@@ -122,9 +134,8 @@ class StickieView: UIView, UITextViewDelegate {
         if shouldY < centerY
         {
             
-            UIView.animateWithDuration(Double(0.5), animations: {
+            UIView.animateWithDuration(Double(0.3), animations: {
                 self.center = CGPointMake(self.center.x,  shouldY)
-                self.layoutIfNeeded()
             })
             
         }

@@ -440,6 +440,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.cognizantenterprisemobility.StickiesApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "5a5688cd-e4f2-40bf-8223-d344a812338e";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -454,6 +455,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.cognizantenterprisemobility.StickiesApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "5a5688cd-e4f2-40bf-8223-d344a812338e";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};

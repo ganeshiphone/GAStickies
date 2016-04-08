@@ -151,13 +151,21 @@ class ViewController: UIViewController, StickieViewDelegate {
     {
         stickie.delegate = self
         self.view.addSubview(stickie)
-        if let previousView = stickieStack.currentStickie()
+        if stickie.thisPosition == CGPointZero
         {
-            stickie.center = CGPointMake(previousView.center.x+5.0, previousView.center.y+5.0)
+            if let previousView = stickieStack.currentStickie()
+            {
+                stickie.center = CGPointMake(previousView.center.x+5.0, previousView.center.y+5.0)
+            }
+            else
+            {
+                stickie.center = self.view.center
+            }
+            stickie.thisPosition = stickie.center
         }
         else
         {
-            stickie.center = self.view.center
+            stickie.center = stickie.thisPosition
         }
         stickieStack.push(stickie)
     }
@@ -244,6 +252,7 @@ class ViewController: UIViewController, StickieViewDelegate {
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         
+        selectionView?.removeFromSuperview()
         self.cutButton.enabled = stickieStack.copiedStickies()?.count > 0
         self.copyButton.enabled = self.cutButton.enabled
 
